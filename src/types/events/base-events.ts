@@ -20,10 +20,12 @@ export type SlackEvent =
   | ChannelSharedEvent
   | ChannelUnarchiveEvent
   | ChannelUnsharedEvent
+  | ConfigureWorkflowStepEvent
   | DNDUpdatedEvent
   | DNDUpdatedUserEvent
   | EmailDomainChangedEvent
   | EmojiChangedEvent
+  | ExecuteWorkflowStepEvent
   | FileChangeEvent
   | FileCommentDeletedEvent
   | FileCreatedEvent
@@ -221,6 +223,27 @@ export interface ChannelUnsharedEvent extends StringIndexed {
   event_ts: string;
 }
 
+export interface ConfigureWorkflowStepEvent extends StringIndexed {
+  type: 'configure_workflow_step';
+  team: {
+    id: string;
+    domain: string;
+    enterprise_id: string;
+    enterprise_name: string;
+  };
+  user: {
+    id: string;
+    username: string;
+    name: string;
+    team_id: string;
+  };
+  callback_id: string;
+  trigger_id: string;
+  api_app_id: string;
+  config_id: string;
+  config: object;
+}
+
 export interface DNDUpdatedEvent extends StringIndexed {
   type: 'dnd_updated';
   user: string;
@@ -258,6 +281,22 @@ export interface EmojiChangedEvent extends StringIndexed {
   name?: string; // only for add
   value?: string; // only for add
   event_ts: string;
+}
+
+export interface ExecuteWorkflowStepEvent extends StringIndexed {
+  type: 'execute_workflow_step';
+  team: {
+    id: string;
+    domain: string;
+    enterprise_id: string;
+    enterprise_name: string;
+  };
+  callback_id: string;
+  api_app_id: string;
+  config: object;
+  // TODO: this is still json encoded
+  inputs: string;
+  workflow_instance_id: string;
 }
 
 export interface FileChangeEvent extends StringIndexed {
