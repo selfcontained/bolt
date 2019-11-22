@@ -55,7 +55,7 @@ export interface AppOptions {
   logger?: Logger;
   logLevel?: LogLevel;
   ignoreSelf?: boolean;
-  clientOptions?: Pick<WebClientOptions, 'slackApiUrl'>;
+  clientOptions?: Pick<WebClientOptions, 'slackApiUrl' | 'headers'>;
 }
 
 export { LogLevel, Logger } from '@slack/logger';
@@ -153,6 +153,7 @@ export default class App {
       logger,
       tls: clientTls,
       slackApiUrl: clientOptions !== undefined ? clientOptions.slackApiUrl : undefined,
+      headers: clientOptions !== undefined ? clientOptions.headers : undefined,
     });
 
     if (token !== undefined) {
